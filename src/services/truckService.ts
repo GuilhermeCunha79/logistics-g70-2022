@@ -22,6 +22,7 @@ export default class TruckService implements ITruckService {
 		try {
 			const truckDocument = await this.truckRepo.findByDomainId(truckDTO.licensePlate);
 
+
 			if (truckDocument != null) {
 				return Result.fail<{ truckDTO: ITruckDTO, token: string }>("Truck already exists with licensePlate=" + truckDTO.licensePlate);
 			}
