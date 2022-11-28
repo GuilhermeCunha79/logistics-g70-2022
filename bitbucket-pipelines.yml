@@ -13,5 +13,6 @@ pipelines:
             caches:
               - node
             script:
+              - npm i -g nodemon
               - npm install
               - npm test
