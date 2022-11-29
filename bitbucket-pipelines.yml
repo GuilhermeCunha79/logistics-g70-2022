@@ -3,7 +3,7 @@
 #  This template allows you to validate your NodeJS code.
 #  The workflow allows running tests and code linting on the default branch.
 
-image: node:16
+image: node:16.18.0
 
 pipelines:
   default:
@@ -13,8 +13,6 @@ pipelines:
             caches:
               - node
             script:
-              - ls
               - npm i -g nodemon
               - npm install
               - npm test
-              - ls
