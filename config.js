@@ -39,51 +39,35 @@ export default {
 	},
 
 	controllers: {
-		role: {
-			name: "RoleController",
-			path: "../controllers/roleController"
+		route: {
+			name: "RouteController",
+			path: "../controllers/routeController"
 		},
 		truck: {
 			name: "TruckController",
 			path: "../controllers/truckController"
-		},
-		route: {
-			name: "RouteController",
-			path: "../controllers/routeController"
 		}
 	},
 
 	repos: {
-		role: {
-			name: "RoleRepo",
-			path: "../repos/roleRepo"
-		},
-		user: {
-			name: "UserRepo",
-			path: "../repos/userRepo"
+		route: {
+			name: "RouteRepo",
+			path: "../repos/routeRepo"
 		},
 		truck: {
 			name: "TruckRepo",
 			path: "../repos/truckRepo"
-		},
-		route: {
-			name: "RouteRepo",
-			path: "../repos/routeRepo"
 		}
 	},
 
 	services: {
-		role: {
-			name: "RoleService",
-			path: "../services/roleService"
+		route: {
+			name: "RouteService",
+			path: "../services/routeService"
 		},
 		truck: {
 			name: "TruckService",
 			path: "../services/truckService"
-		},
-		route: {
-			name: "RouteService",
-			path: "../services/routeService"
 		}
 	}
 };

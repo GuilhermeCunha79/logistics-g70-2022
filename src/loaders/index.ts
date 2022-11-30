@@ -6,18 +6,9 @@ import Logger from './logger';
 import config from '../../config';
 
 export default async ({expressApp}) => {
+
 	const mongoConnection = await mongooseLoader();
 	Logger.info('DB loaded and connected!');
-
-	const userSchema = {
-		name: 'userSchema',
-		schema: '../persistence/schemas/userSchema',
-	};
-
-	const roleSchema = {
-		name: 'roleSchema',
-		schema: '../persistence/schemas/roleSchema',
-	};
 
 	const truckSchema = {
 		name: 'truckSchema',
@@ -29,24 +20,19 @@ export default async ({expressApp}) => {
 		schema: '../persistence/schemas/routeSchema',
 	};
 
-	const roleController = {
-		name: config.controllers.role.name,
-		path: config.controllers.role.path
+	const routeController = {
+		name: config.controllers.route.name,
+		path: config.controllers.route.path
 	}
 
-	const roleRepo = {
-		name: config.repos.role.name,
-		path: config.repos.role.path
+	const routeRepo = {
+		name: config.repos.route.name,
+		path: config.repos.route.path
 	}
 
-	const roleService = {
-		name: config.services.role.name,
-		path: config.services.role.path
-	}
-
-	const userRepo = {
-		name: config.repos.user.name,
-		path: config.repos.user.path
+	const routeService = {
+		name: config.services.route.name,
+		path: config.services.route.path
 	}
 
 	const truckController = {
@@ -64,48 +50,27 @@ export default async ({expressApp}) => {
 		path: config.services.truck.path
 	}
 
-	const routeController = {
-		name: config.controllers.route.name,
-		path: config.controllers.route.path
-	}
-
-	const routeRepo = {
-		name: config.repos.route.name,
-		path: config.repos.route.path
-	}
-
-	const routeService = {
-		name: config.services.route.name,
-		path: config.services.route.path
-	}
-
 	await dependencyInjectorLoader({
 		mongoConnection,
 		schemas: [
-			userSchema,
-			roleSchema,
-			truckSchema,
-			routeSchema
+			routeSchema,
+			truckSchema
 		],
 		controllers: [
-			roleController,
-			truckController,
-			routeController
+			routeController,
+			truckController
 		],
 		repos: [
-			userRepo,
-			roleRepo,
-			truckRepo,
-			routeRepo
+			routeRepo,
+			truckRepo
 		],
 		services: [
-			roleService,
-			truckService,
-			routeService
+			routeService,
+			truckService
 		]
 	});
-	Logger.info('Schemas, Controllers, Repositories, Services, etc. loaded!');
 
+	Logger.info('Schemas, Controllers, Repositories, Services, etc. loaded!');
 	await expressLoader({app: expressApp});
 	Logger.info('Express loaded!');
 };
