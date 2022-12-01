@@ -11,7 +11,7 @@ import IRouteService from "../../../src/services/IServices/IRouteService";
 
 describe('Route controller', function () {
 	beforeEach(() => {
-		let routeSchemaInstance = require("../../../src/persistence/schemas/routeSchema").default;
+		let routeSchemaInstance = require("../../../src/persistence/routeSchema").default;
 		Container.set("RouteSchema", routeSchemaInstance);
 
 		let routeRepoInstance = require('../../../src/repos/truckRepo').default;
@@ -34,7 +34,7 @@ describe('Route controller', function () {
 			distance: 10,
 			timeDistance: 10,
 			energySpent: 10,
-			extraTimeBattery: 10
+			extraBatteryTime: 10
 		};
 
 		let req: Partial<Request> = {};
@@ -64,7 +64,7 @@ describe('Route controller', function () {
 			distance: 88,
 			timeDistance: 88,
 			energySpent: 88,
-			extraTimeBattery: 88
+			extraBatteryTime: 88
 		};
 
 		let req: Partial<Request> = {};
@@ -90,7 +90,7 @@ describe('Route controller', function () {
 			distance: 88,
 			timeDistance: 88,
 			energySpent: 88,
-			extraTimeBattery: 88
+			extraBatteryTime: 88
 		}));
 	});
 
@@ -102,7 +102,7 @@ describe('Route controller', function () {
 			distance: 10,
 			timeDistance: 10,
 			energySpent: 10,
-			extraTimeBattery: 10
+			extraBatteryTime: 10
 		};
 
 		let req: Partial<Request> = {
@@ -134,7 +134,7 @@ describe('Route controller', function () {
 			distance: 10,
 			timeDistance: 10,
 			energySpent: 10,
-			extraTimeBattery: 10
+			extraBatteryTime: 10
 		} ];
 
 		let req: Partial<Request> = {};
