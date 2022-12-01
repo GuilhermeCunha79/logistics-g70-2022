@@ -30,6 +30,7 @@
 		"javascript",
 		"typescript",
 		"node",
+		"heroku",
 		"express"
 	],
 	"author": "Santiago Quinteros",
