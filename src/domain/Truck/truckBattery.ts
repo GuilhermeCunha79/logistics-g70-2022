@@ -17,7 +17,7 @@ export class TruckBattery extends ValueObject<IBatteryProps> {
 
 		if (!guardResult.succeeded) {
 			return Result.fail<TruckBattery>(guardResult.message);
-		} else if(battery < 0) {
+		} else if (battery < 0) {
 			return Result.fail<TruckBattery>("Battery can't have a negative value.");
 		} else {
 			return Result.ok<TruckBattery>(new TruckBattery({value: battery}))

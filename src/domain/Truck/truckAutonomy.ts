@@ -17,7 +17,7 @@ export class TruckAutonomy extends ValueObject<IAutonomyProps> {
 
 		if (!guardResult.succeeded) {
 			return Result.fail<TruckAutonomy>(guardResult.message);
-		} else if(autonomy < 0) {
+		} else if (autonomy < 0) {
 			return Result.fail<TruckAutonomy>("Autonomy can't have a negative value.");
 		} else {
 			return Result.ok<TruckAutonomy>(new TruckAutonomy({value: autonomy}))

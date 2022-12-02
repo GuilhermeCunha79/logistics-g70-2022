@@ -17,7 +17,7 @@ export class TruckTare extends ValueObject<ITareProps> {
 
 		if (!guardResult.succeeded) {
 			return Result.fail<TruckTare>(guardResult.message);
-		} else if(tare < 0) {
+		} else if (tare < 0) {
 			return Result.fail<TruckTare>("TruckTare can't have a negative value.");
 		} else {
 			return Result.ok<TruckTare>(new TruckTare({value: tare}))
