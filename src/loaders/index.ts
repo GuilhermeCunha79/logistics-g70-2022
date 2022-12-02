@@ -12,12 +12,12 @@ export default async ({expressApp}) => {
 
 	const truckSchema = {
 		name: 'truckSchema',
-		schema: '../persistence/schemas/truckSchema',
+		schema: '../persistence/truckSchema',
 	};
 
 	const routeSchema = {
 		name: 'routeSchema',
-		schema: '../persistence/schemas/routeSchema',
+		schema: '../persistence/routeSchema',
 	};
 
 	const routeController = {

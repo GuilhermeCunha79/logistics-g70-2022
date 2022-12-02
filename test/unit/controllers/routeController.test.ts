@@ -120,7 +120,7 @@ describe('Route controller', function () {
 		const obj = sinon.stub(routeServiceInstance, 'getRouteById').returns(Result.ok<IRouteDTO>(body as IRouteDTO));
 
 		const ctrl = new RouteController(routeServiceInstance as IRouteService);
-		await ctrl.findRoute(<Request>req, <Response>res, <NextFunction>next);
+		await ctrl.findRoutes(<Request>req, <Response>res, <NextFunction>next);
 
 		//sinon.assert.calledOnce(obj);
 		//sinon.assert.calledWith(obj, sinon.match(body));
@@ -145,11 +145,11 @@ describe('Route controller', function () {
 
 		let routeServiceInstance = Container.get(config.services.route.name);
 
-		const obj = sinon.stub(routeServiceInstance, 'getAllRoutes').returns(
+		const obj = sinon.stub(routeServiceInstance, 'getRoutes').returns(
 			Result.ok<IRouteDTO[]>(body as IRouteDTO[]));
 
 		const ctrl = new RouteController(routeServiceInstance as IRouteService);
-		await ctrl.findAllRoutes(<Request>req, <Response>res, <NextFunction>next);
+		await ctrl.findRoutes(<Request>req, <Response>res, <NextFunction>next);
 
 		sinon.assert.calledOnce(obj);
 		//sinon.assert.calledWith(obj, sinon.match(body));
