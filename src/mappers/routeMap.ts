@@ -10,7 +10,7 @@ import {RouteDestination} from "../domain/Route/routeDestination";
 import {RouteDistance} from "../domain/Route/routeDistance";
 import {RouteTimeDistance} from "../domain/Route/routeTimeDistance";
 import {RouteEnergySpent} from "../domain/Route/routeEnergySpent";
-import {RouteExtraTimeBattery} from "../domain/Route/routeExtraTimeBattery";
+import {RouteExtraBatteryTime} from "../domain/Route/routeExtraBatteryTime";
 import {IRoutePersistence} from "../dataschema/IRoutePersistence";
 
 export class RouteMap extends Mapper<Route> {
@@ -23,7 +23,7 @@ export class RouteMap extends Mapper<Route> {
 			distance: route.distance.value,
 			timeDistance: route.timeDistance.value,
 			energySpent: route.energySpent.value,
-			extraTimeBattery: route.extraTimeBattery.value
+			extraBatteryTime: route.extraBatteryTime.value
 		} as IRouteDTO;
 	}
 
@@ -35,7 +35,7 @@ export class RouteMap extends Mapper<Route> {
 				distance: RouteDistance.create(raw.distance).getValue(),
 				timeDistance: RouteTimeDistance.create(raw.timeDistance).getValue(),
 				energySpent: RouteEnergySpent.create(raw.energySpent).getValue(),
-				extraTimeBattery: RouteExtraTimeBattery.create(raw.extraTimeBattery).getValue()
+				extraBatteryTime: RouteExtraBatteryTime.create(raw.extraBatteryTime).getValue()
 			}, new UniqueEntityID(raw.domainId)
 		);
 
@@ -52,7 +52,7 @@ export class RouteMap extends Mapper<Route> {
 			distance: route.distance.value,
 			timeDistance: route.timeDistance.value,
 			energySpent: route.energySpent.value,
-			extraTimeBattery: route.extraTimeBattery.value
+			extraBatteryTime: route.extraBatteryTime.value
 		};
 	}
 }

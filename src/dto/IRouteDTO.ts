@@ -5,5 +5,5 @@ export default interface IRouteDTO {
 	distance: number;
 	timeDistance: number;
 	energySpent: number;
-	extraTimeBattery: number;
+	extraBatteryTime: number;
 }

@@ -1,4 +1,4 @@
-import {ITruckPersistence} from '../../dataschema/ITruckPersistence';
+import {ITruckPersistence} from '../dataschema/ITruckPersistence';
 import mongoose from 'mongoose';
 
 const TruckSchema = new mongoose.Schema(
