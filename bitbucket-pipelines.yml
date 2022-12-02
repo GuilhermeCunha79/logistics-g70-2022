@@ -1,0 +1,49 @@
+#  Template NodeJS Web Application for Azure Web App service
+#  This template allows you to deploy your NodeJS web application to Azure Web App Service.
+#  The workflow allows running tests, code linting and security scans on feature branches (as well as master).
+#  The NodeJS application will be validated after the code is merged to master and deployment can be triggered manually.
+# For advanced cases, please, follow examples from the pipe's README https://bitbucket.org/microsoft/azure-web-apps-deploy/src/1.0.3/README.md
+image: node:16
+
+
+
+pipelines:
+  default:
+    - parallel:
+      - step:
+          name: Build and Test
+          caches:
+            - node
+          script:
+            - npm install
+            - npm test
+  branches:
+    master:
+      - parallel:
+        - step:
+            name: Build and Test
+            caches:
+              - node
+            script:
+              - npm install
+              - npm test
+              - apt update && apt install zip
+              # Exclude files to be ignored
+                # Web
+              - git archive --format=tar.gz master -o application.tar.gz
+            artifacts:
+              - application.tar.gz
+      - step:
+                  name: Deploy to heroku
+                  deployment: Production
+#                  trigger: manual
+                  script:
+#                    - cd lei22_23_s5_3dk_61
+#                    - git push -f https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD:master#                      - pwd
+#                      - ls
+                      - pipe: atlassian/heroku-deploy:2.0.0
+                        variables:
+                            HEROKU_API_KEY: $HEROKU_API_KEY
+                            HEROKU_APP_NAME: $HEROKU_APP_NAME
+                            ZIP_FILE: "application.tar.gz"
+                            WAIT: 'true'
