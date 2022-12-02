@@ -20,8 +20,8 @@ export default class TruckController implements ITruckController {
 				return res.status(400).json(truckOrError.error);
 			}
 
-			const roleDTO = truckOrError.getValue();
-			return res.status(201).json(roleDTO);
+			const truckDTO = truckOrError.getValue();
+			return res.status(201).json(truckDTO);
 		} catch (e) {
 			return next(e);
 		}

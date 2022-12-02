@@ -11,7 +11,7 @@ import ITruckService from "../../../src/services/IServices/ITruckService";
 
 describe('Truck controller', function() {
 	beforeEach(() => {
-		let truckSchemaInstance = require("../../../src/persistence/schemas/truckSchema").default;
+		let truckSchemaInstance = require("../../../src/persistence/truckSchema").default;
 		Container.set("TruckSchema", truckSchemaInstance);
 
 		let truckRepoInstance = require('../../../src/repos/truckRepo').default;

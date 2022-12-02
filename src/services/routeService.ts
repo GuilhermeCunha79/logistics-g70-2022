@@ -4,7 +4,7 @@ import {Result} from "../core/logic/Result";
 import IRouteService from "./IServices/IRouteService";
 import IRouteDTO from "../dto/IRouteDTO";
 import {Route} from "../domain/Route/route";
-import {RouteExtraTimeBattery} from "../domain/Route/routeExtraTimeBattery";
+import {RouteExtraBatteryTime} from "../domain/Route/routeExtraBatteryTime";
 import {RouteEnergySpent} from "../domain/Route/routeEnergySpent";
 import {RouteDistance} from "../domain/Route/routeDistance";
 import {RouteDestination} from "../domain/Route/routeDestination";
@@ -21,10 +21,16 @@ export default class RouteService implements IRouteService {
 
 	public async createRoute(routeDTO: IRouteDTO): Promise<Result<{ routeDTO: IRouteDTO, token: string }>> {
 		try {
-			const routeDocument = await this.routeRepo.findByDomainId(routeDTO.routeId);
+			let routeDocument = (await this.routeRepo.find({routeId: routeDTO.routeId}))[0];
 
 			if (routeDocument != null) {
 				return Result.fail<{ routeDTO: IRouteDTO, token: string }>("Route already exists with id=" + routeDTO.routeId);
+			}
+
+			routeDocument = (await this.routeRepo.find({origin: routeDTO.origin, destination: routeDTO.destination}))[0];
+
+			if (routeDocument != null) {
+				return Result.fail<{ routeDTO: IRouteDTO, token: string }>("Route already exists with origin=" + routeDTO.origin + " and destination=" + routeDTO.destination);
 			}
 
 			const routeOrError = await Route.create({
@@ -34,7 +40,7 @@ export default class RouteService implements IRouteService {
 				distance: RouteDistance.create(routeDTO.distance).getValue(),
 				timeDistance: RouteTimeDistance.create(routeDTO.timeDistance).getValue(),
 				energySpent: RouteEnergySpent.create(routeDTO.energySpent).getValue(),
-				extraTimeBattery: RouteExtraTimeBattery.create(routeDTO.extraTimeBattery).getValue()
+				extraBatteryTime: RouteExtraBatteryTime.create(routeDTO.extraBatteryTime).getValue()
 			});
 
 			if (routeOrError.isFailure) {
@@ -54,57 +60,12 @@ export default class RouteService implements IRouteService {
 		}
 	}
 
-	public async getRouteById(id: string): Promise<Result<IRouteDTO>> {
+	public async getRoutes(query?: any): Promise<Result<IRouteDTO[]>> {
 		try {
-			const route = await this.routeRepo.findByDomainId(id);
+			const routeList = await this.routeRepo.find(query);
 
-			if (route == null) {
-				return Result.fail<IRouteDTO>("Route not found.");
-			} else {
-				const routeDTOResult = RouteMap.toDTO(route) as IRouteDTO;
-				return Result.ok<IRouteDTO>(routeDTOResult)
-			}
-		} catch (e) {
-			throw e;
-		}
-	}
-
-	public async getRouteByOriginAndDestination(origin: string, destination: string): Promise<Result<IRouteDTO>> {
-		try {
-			const route = await this.routeRepo.findByOriginAndDestination(origin, destination);
-
-			if (route == null) {
-				return Result.fail<IRouteDTO>("Route not found with those parameters.");
-			} else {
-				const routeDTOResult = RouteMap.toDTO(route) as IRouteDTO;
-				return Result.ok<IRouteDTO>(routeDTOResult)
-			}
-		} catch (e) {
-			throw e;
-		}
-	}
-
-	public async getRouteByOriginOrDestination(location: string, origin: boolean): Promise<Result<IRouteDTO[]>> {
-		try {
-			const routeList = await this.routeRepo.findByOriginOrDestination(location, origin);
-
-			if (routeList == null) {
-				return Result.fail<IRouteDTO[]>("There are no registered routes with that parameters.");
-			}
-
-			const result = routeList.map((routeList) => RouteMap.toDTO(routeList) as IRouteDTO);
-			return Result.ok<IRouteDTO[]>(result);
-		} catch (e) {
-			throw e;
-		}
-	}
-
-	public async getAllRoutes(): Promise<Result<IRouteDTO[]>> {
-		try {
-			const routeList = await this.routeRepo.findAll();
-
-			if (routeList == null) {
-				return Result.fail<IRouteDTO[]>("There are no registered routes.");
+			if (routeList.length == 0) {
+				return Result.fail<IRouteDTO[]>("Routes not found.");
 			}
 
 			const result = routeList.map((routeList) => RouteMap.toDTO(routeList) as IRouteDTO);
@@ -120,7 +81,7 @@ export default class RouteService implements IRouteService {
 				return Result.fail<{ routeDTO: IRouteDTO, token: string }>("Origin and Destination can't be the same.");
 			}
 
-			const route = await this.routeRepo.findByOriginAndDestination(routeDTO.origin, routeDTO.destination);
+			const route = (await this.routeRepo.find({origin: routeDTO.origin, destination: routeDTO.destination}))[0];
 
 			if (route == null) {
 				return Result.fail<{ routeDTO: IRouteDTO, token: string }>("Route not found with origin=" + routeDTO.origin + " | destination=" + routeDTO.destination);
@@ -130,7 +91,7 @@ export default class RouteService implements IRouteService {
 				route.distance = RouteDistance.create(routeDTO.distance).getValue();
 				route.timeDistance = RouteTimeDistance.create(routeDTO.timeDistance).getValue();
 				route.energySpent = RouteEnergySpent.create(routeDTO.energySpent).getValue();
-				route.extraTimeBattery = RouteExtraTimeBattery.create(routeDTO.extraTimeBattery).getValue();
+				route.extraBatteryTime = RouteExtraBatteryTime.create(routeDTO.extraBatteryTime).getValue();
 
 				await this.routeRepo.save(route);
 				const routeDTOResult = RouteMap.toDTO(route) as IRouteDTO;
@@ -146,7 +107,7 @@ export default class RouteService implements IRouteService {
 
 	public async deleteRouteById(routeId: string): Promise<Result<{ routeDTO: IRouteDTO, token: string }>> {
 		try {
-			const route = await this.routeRepo.findByDomainId(routeId);
+			const route = (await this.routeRepo.find({routeId: routeId}))[0];
 
 			if (route == null) {
 				return Result.fail<{ routeDTO: IRouteDTO, token: string }>("Route not found.");

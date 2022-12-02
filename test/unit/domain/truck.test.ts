@@ -1,12 +1,11 @@
-
 import {expect} from "chai";
-import {Truck} from "../../../../src/domain/Truck/truck";
-import {TruckLicensePlate} from "../../../../src/domain/Truck/truckLicensePlate";
-import {TruckAutonomy} from "../../../../src/domain/Truck/truckAutonomy";
-import {TruckCapacityCargo} from "../../../../src/domain/Truck/truckCapacityCargo";
-import {TruckCapacityTransportation} from "../../../../src/domain/Truck/truckCapacityTransportation";
-import {TruckTare} from "../../../../src/domain/Truck/truckTare";
-import {TruckBattery} from "../../../../src/domain/Truck/truckBattery";
+import {Truck} from "../../../src/domain/Truck/truck";
+import {TruckLicensePlate} from "../../../src/domain/Truck/truckLicensePlate";
+import {TruckAutonomy} from "../../../src/domain/Truck/truckAutonomy";
+import {TruckCapacityCargo} from "../../../src/domain/Truck/truckCapacityCargo";
+import {TruckCapacityTransportation} from "../../../src/domain/Truck/truckCapacityTransportation";
+import {TruckTare} from "../../../src/domain/Truck/truckTare";
+import {TruckBattery} from "../../../src/domain/Truck/truckBattery";
 
 describe('Truck Unit Tests', () => {
 	let licensePlate= "AA-00-AA";
@@ -16,14 +15,11 @@ describe('Truck Unit Tests', () => {
 	let battery=80;
 	let tare=7500;
 
-
 	const truckInvalidAutonomy = -100;
 	const truckInvalidCapacityCargo=-4300;
 	const truckInvalidCapacityTransportation=-120;
 	const truckInvalidBattery=-80;
 	const truckInvalidTare=-3000;
-
-
 
 	const truck = Truck.create({
 		licensePlate: TruckLicensePlate.create(licensePlate).getValue(),
@@ -34,8 +30,6 @@ describe('Truck Unit Tests', () => {
 		battery: TruckBattery.create(battery).getValue(),
 	});
 
-
-
 	it('create valid tare', () => {
 		expect(truck.getValue().tare.value).to.equal(tare);
 	})
@@ -44,8 +38,6 @@ describe('Truck Unit Tests', () => {
 		const invalidTare = TruckTare.create(truckInvalidTare);
 		expect(true).to.equal(invalidTare.isFailure);
 	})
-
-
 
 	it('create valid capacityCargo', () => {
 		expect(truck.getValue().capacityCargo.value).to.equal(capacityCargo);
@@ -56,7 +48,6 @@ describe('Truck Unit Tests', () => {
 		expect(true).to.equal(invalidCapacityCargo.isFailure);
 	})
 
-
 	it('create valid capacityTransportation', () => {
 		expect(truck.getValue().capacityTransportation.value).to.equal(capacityTransportation);
 	})
@@ -65,8 +56,6 @@ describe('Truck Unit Tests', () => {
 		const invalidCapacityTransportation = TruckTare.create(truckInvalidCapacityTransportation);
 		expect(true).to.equal(invalidCapacityTransportation.isFailure);
 	})
-
-
 
 	it('create valid truckBattery ', () => {
 		expect(truck.getValue().battery.value).to.equal(battery);
@@ -77,7 +66,6 @@ describe('Truck Unit Tests', () => {
 		expect(true).to.equal(invalidBattery.isFailure);
 	})
 
-
 	it('create valid truck Autonomy ', () => {
 		expect(truck.getValue().autonomy.value).to.equal(autonomy);
 	})
@@ -86,7 +74,4 @@ describe('Truck Unit Tests', () => {
 		const invalidAutonomy = TruckTare.create(truckInvalidAutonomy);
 		expect(true).to.equal(invalidAutonomy.isFailure);
 	})
-
-
-
 })

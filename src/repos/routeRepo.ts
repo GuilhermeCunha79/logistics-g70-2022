@@ -30,7 +30,7 @@ export default class RouteRepo implements IRouteRepo {
 				routeDocument.distance = route.distance.value;
 				routeDocument.timeDistance = route.timeDistance.value;
 				routeDocument.energySpent = route.energySpent.value;
-				routeDocument.extraTimeBattery = route.extraTimeBattery.value;
+				routeDocument.extraBatteryTime = route.extraBatteryTime.value;
 
 				await routeDocument.save();
 				return route;
@@ -40,35 +40,7 @@ export default class RouteRepo implements IRouteRepo {
 		}
 	}
 
-	public async findByDomainId(routeId: string): Promise<Route> {
-		const query = {routeId: routeId};
-		const routeRecord = await this.routeSchema.findOne(query);
-
-		if (routeRecord != null) {
-			return RouteMap.toDomain(routeRecord);
-		}
-		return null;
-	}
-
-	public async findByOriginAndDestination(origin: string, destination: string): Promise<Route> {
-		const query = {origin: origin, destination: destination};
-		const routeRecord = await this.routeSchema.findOne(query)
-
-		if (routeRecord != null) {
-			return RouteMap.toDomain(routeRecord);
-		}
-		return null;
-	}
-
-	public async findByOriginOrDestination(location: string, origin: boolean): Promise<Route[]> {
-		let query;
-
-		if (origin) {
-			query = {origin: location};
-		} else {
-			query = {destination: location};
-		}
-
+	public async find(query?: any): Promise<Route[]> {
 		const routeRecord = await this.routeSchema.find(query);
 
 		if (routeRecord != null) {
@@ -77,18 +49,8 @@ export default class RouteRepo implements IRouteRepo {
 		return null;
 	}
 
-	public async findAll(): Promise<Route[]> {
-		const routeRecord = await this.routeSchema.find();
-
-		if (routeRecord != null) {
-			return (routeRecord.map((postRecord) => RouteMap.toDomain(postRecord)));
-		}
-		return null;
-	}
-
 	public async delete(routeId: string): Promise<Route> {
-		const query = {routeId: routeId};
-		const routeDocument = await this.routeSchema.findOne(query);
+		const routeDocument = await this.routeSchema.findOne({routeId: routeId});
 
 		if (routeDocument != null) {
 			routeDocument.remove();

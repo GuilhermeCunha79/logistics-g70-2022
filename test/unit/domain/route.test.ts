@@ -1,12 +1,12 @@
 import { expect } from 'chai';
-import {Route} from "../../../../src/domain/Route/route";
-import {RouteId} from "../../../../src/domain/Route/routeId";
-import {RouteOrigin} from "../../../../src/domain/Route/routeOrigin";
-import {RouteDestination} from "../../../../src/domain/Route/routeDestination";
-import {RouteDistance} from "../../../../src/domain/Route/routeDistance";
-import {RouteTimeDistance} from "../../../../src/domain/Route/routeTimeDistance";
-import {RouteEnergySpent} from "../../../../src/domain/Route/routeEnergySpent";
-import {RouteExtraTimeBattery} from "../../../../src/domain/Route/routeExtraTimeBattery";
+import {Route} from "../../../src/domain/Route/route";
+import {RouteId} from "../../../src/domain/Route/routeId";
+import {RouteOrigin} from "../../../src/domain/Route/routeOrigin";
+import {RouteDestination} from "../../../src/domain/Route/routeDestination";
+import {RouteDistance} from "../../../src/domain/Route/routeDistance";
+import {RouteTimeDistance} from "../../../src/domain/Route/routeTimeDistance";
+import {RouteEnergySpent} from "../../../src/domain/Route/routeEnergySpent";
+import {RouteExtraBatteryTime} from "../../../src/domain/Route/routeExtraBatteryTime";
 
 describe('Create a valid truck', () => {
 	const routeId = "111";
@@ -15,12 +15,12 @@ describe('Create a valid truck', () => {
 	const distance = 10;
 	const timeDistance = 10;
 	const energySpent = 10;
-	const extraTimeBattery = 10;
+	const extraBatteryTime = 10;
 
 	const invalidDistance = -10;
 	const invalidTimeDistance = -10;
 	const invalidEnergySpent = -10;
-	const invalidExtraTimeBattery = -10;
+	const invalidExtraBatteryTime = -10;
 
 	const route = Route.create({
 		routeId: RouteId.create(routeId).getValue(),
@@ -29,7 +29,7 @@ describe('Create a valid truck', () => {
 		distance: RouteDistance.create(distance).getValue(),
 		timeDistance: RouteTimeDistance.create(timeDistance).getValue(),
 		energySpent: RouteEnergySpent.create(energySpent).getValue(),
-		extraTimeBattery: RouteExtraTimeBattery.create(extraTimeBattery).getValue()
+		extraBatteryTime: RouteExtraBatteryTime.create(extraBatteryTime).getValue()
 	});
 
 	// Same origin and destination
@@ -41,7 +41,7 @@ describe('Create a valid truck', () => {
 			distance: RouteDistance.create(distance).getValue(),
 			timeDistance: RouteTimeDistance.create(timeDistance).getValue(),
 			energySpent: RouteEnergySpent.create(energySpent).getValue(),
-			extraTimeBattery: RouteExtraTimeBattery.create(extraTimeBattery).getValue()
+			extraBatteryTime: RouteExtraBatteryTime.create(extraBatteryTime).getValue()
 		});
 		expect(true).to.equal(errorRoute.isFailure);
 	});
@@ -74,11 +74,11 @@ describe('Create a valid truck', () => {
 	});
 
 	it('Valid extra time battery', () => {
-		expect(route.getValue().extraTimeBattery.value).to.equal(extraTimeBattery);
+		expect(route.getValue().extraBatteryTime.value).to.equal(extraBatteryTime);
 	});
 	//Negative extra time battery
 	it('Invalid extra time battery', () => {
-		const errorExtraTimeBattery = RouteExtraTimeBattery.create(invalidExtraTimeBattery);
-		expect(true).to.equal(errorExtraTimeBattery.isFailure);
+		const errorExtraBatteryTime = RouteExtraBatteryTime.create(invalidExtraBatteryTime);
+		expect(true).to.equal(errorExtraBatteryTime.isFailure);
 	});
 });

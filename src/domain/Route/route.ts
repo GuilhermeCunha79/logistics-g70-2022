@@ -10,7 +10,7 @@ import {RouteDestination} from "./routeDestination";
 import {RouteDistance} from "./routeDistance";
 import {RouteTimeDistance} from "./routeTimeDistance";
 import {RouteEnergySpent} from "./routeEnergySpent";
-import {RouteExtraTimeBattery} from "./routeExtraTimeBattery";
+import {RouteExtraBatteryTime} from "./routeExtraBatteryTime";
 
 interface RouteProps {
 	routeId: RouteId;
@@ -19,7 +19,7 @@ interface RouteProps {
 	distance: RouteDistance;
 	timeDistance: RouteTimeDistance;
 	energySpent: RouteEnergySpent;
-	extraTimeBattery: RouteExtraTimeBattery;
+	extraBatteryTime: RouteExtraBatteryTime;
 }
 
 export class Route extends AggregateRoot<RouteProps> {
@@ -51,8 +51,8 @@ export class Route extends AggregateRoot<RouteProps> {
 		return this.props.energySpent;
 	}
 
-	get extraTimeBattery(): RouteExtraTimeBattery {
-		return this.props.extraTimeBattery;
+	get extraBatteryTime(): RouteExtraBatteryTime {
+		return this.props.extraBatteryTime;
 	}
 
 	set origin(value: RouteOrigin) {
@@ -75,8 +75,8 @@ export class Route extends AggregateRoot<RouteProps> {
 		this.props.energySpent = value;
 	}
 
-	set extraTimeBattery(value: RouteExtraTimeBattery) {
-		this.props.extraTimeBattery = value;
+	set extraBatteryTime(value: RouteExtraBatteryTime) {
+		this.props.extraBatteryTime = value;
 	}
 
 	private constructor(props: RouteProps, id?: UniqueEntityID) {
@@ -91,7 +91,7 @@ export class Route extends AggregateRoot<RouteProps> {
 			{argument: props.distance, argumentName: 'distance'},
 			{argument: props.timeDistance, argumentName: 'timeDistance'},
 			{argument: props.energySpent, argumentName: 'energySpent'},
-			{argument: props.extraTimeBattery, argumentName: 'extraTimeBattery'}
+			{argument: props.extraBatteryTime, argumentName: 'extraBatteryTime'}
 		];
 
 		const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);

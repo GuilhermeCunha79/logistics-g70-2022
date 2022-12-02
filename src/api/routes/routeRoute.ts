@@ -21,14 +21,12 @@ export default (app: Router) => {
 				distance: Joi.number().required().min(0),
 				timeDistance: Joi.number().required().min(0),
 				energySpent: Joi.number().required().min(0),
-				extraTimeBattery: Joi.number().required().min(0)
+				extraBatteryTime: Joi.number().required().min(0)
 			})
 		}),
 		(req, res, next) => ctrl.createRoute(req, res, next));
 
-	route.get('', (req, res, next) => ctrl.findRoute(req, res, next));
-
-	route.get('/all', (req, res, next) => ctrl.findAllRoutes(req, res, next));
+	route.get('', (req, res, next) => ctrl.findRoutes(req, res, next));
 
 	route.put('',
 		celebrate({
@@ -39,7 +37,7 @@ export default (app: Router) => {
 				distance: Joi.number().min(0),
 				timeDistance: Joi.number().min(0),
 				energySpent: Joi.number().min(0),
-				extraTimeBattery: Joi.number().min(0)
+				extraBatteryTime: Joi.number().min(0)
 			})
 		}),
 		(req, res, next) => ctrl.updateRoute(req, res, next));

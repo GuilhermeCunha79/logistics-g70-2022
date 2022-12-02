@@ -1,4 +1,4 @@
-import {IRoutePersistence} from '../../dataschema/IRoutePersistence';
+import {IRoutePersistence} from '../dataschema/IRoutePersistence';
 import mongoose from 'mongoose';
 
 const RouteSchema = new mongoose.Schema(
@@ -37,9 +37,9 @@ const RouteSchema = new mongoose.Schema(
 			required: [true, "Insert route's energy spent."],
 			index: true
 		},
-		extraTimeBattery: {
+		extraBatteryTime: {
 			type: Number,
-			required: [true, "Insert route's extra time battery."],
+			required: [true, "Insert route's extra battery time."],
 			index: true
 		}
 	},

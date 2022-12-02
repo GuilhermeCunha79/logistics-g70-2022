@@ -6,5 +6,5 @@ export interface IRoutePersistence {
 	distance: number;
 	timeDistance: number;
 	energySpent: number;
-	extraTimeBattery: number;
+	extraBatteryTime: number;
 }
