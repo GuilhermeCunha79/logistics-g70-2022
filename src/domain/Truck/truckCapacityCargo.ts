@@ -17,7 +17,7 @@ export class TruckCapacityCargo extends ValueObject<ICapacityCargoProps> {
 
 		if (!guardResult.succeeded) {
 			return Result.fail<TruckCapacityCargo>(guardResult.message);
-		} else if(capacityCargo < 0) {
+		} else if (capacityCargo < 0) {
 			return Result.fail<TruckCapacityCargo>("CapacityCargo can't have a negative value.");
 		} else {
 			return Result.ok<TruckCapacityCargo>(new TruckCapacityCargo({value: capacityCargo}))
