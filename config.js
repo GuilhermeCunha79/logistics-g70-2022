@@ -39,6 +39,10 @@ export default {
 	},
 
 	controllers: {
+		planning: {
+			name:"PlanningController",
+			path:"../controllers/planningController"
+		},
 		route: {
 			name: "RouteController",
 			path: "../controllers/routeController"
@@ -50,6 +54,10 @@ export default {
 	},
 
 	repos: {
+		planning: {
+			name: "PlanningRepo",
+			path: "../repos/planningRepo"
+		},
 		route: {
 			name: "RouteRepo",
 			path: "../repos/routeRepo"
@@ -61,6 +69,10 @@ export default {
 	},
 
 	services: {
+		planning: {
+			name: "PlanningService",
+			path: "../services/planningService"
+		},
 		route: {
 			name: "RouteService",
 			path: "../services/routeService"

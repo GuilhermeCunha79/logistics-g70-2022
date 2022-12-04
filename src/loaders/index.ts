@@ -10,6 +10,11 @@ export default async ({expressApp}) => {
 	const mongoConnection = await mongooseLoader();
 	Logger.info('DB loaded and connected!');
 
+	const planningSchema = {
+		name: 'planningSchema',
+		schema: '../persistence/planningSchema',
+	};
+
 	const truckSchema = {
 		name: 'truckSchema',
 		schema: '../persistence/truckSchema',
@@ -19,6 +24,21 @@ export default async ({expressApp}) => {
 		name: 'routeSchema',
 		schema: '../persistence/routeSchema',
 	};
+
+	const planningController = {
+		name: config.controllers.planning.name,
+		path: config.controllers.planning.path
+	}
+
+	const planningRepo = {
+		name: config.repos.planning.name,
+		path: config.repos.planning.path
+	}
+
+	const planningService = {
+		name: config.services.planning.name,
+		path: config.services.planning.path
+	}
 
 	const routeController = {
 		name: config.controllers.route.name,
@@ -53,18 +73,22 @@ export default async ({expressApp}) => {
 	await dependencyInjectorLoader({
 		mongoConnection,
 		schemas: [
+			planningSchema,
 			routeSchema,
 			truckSchema
 		],
 		controllers: [
+			planningController,
 			routeController,
 			truckController
 		],
 		repos: [
+			planningRepo,
 			routeRepo,
 			truckRepo
 		],
 		services: [
+			planningService,
 			routeService,
 			truckService
 		]
