@@ -22,21 +22,20 @@ export default class PlanningService implements IPlanningService {
 
 	public async createPlanning(planningDTO: IPlanningDTO): Promise<Result<{ planningDTO: IPlanningDTO, token: string }>> {
 		try {
-			const url = "http://vs576.dei.isep.ipp.pt:2226/planning?";
-			const path = url.concat("ls=" + planningDTO.licensePlate + "&date=" + planningDTO.date + "?heuristica=1");
+			const url = "http://vs576.dei.isep.ipp.pt:8888/";
+			const path = url.concat("planning?licensePlate=" + planningDTO.licensePlate + "&heuristic=1");
 
-			console.log(1)
-			const response = await fetch(path);
-			console.log(2)
-			console.log(response)
-			const date = await response.json();
+			const res = await fetch(path);
+			const data = await res.json();
+
+			console.log(data);
 
 			const planningOrError = await Planning.create({
 				planningId: PlanningId.create(planningDTO.planningId).getValue(),
 				licensePlate: PlanningLicensePlate.create(planningDTO.licensePlate).getValue(),
 				date: PlanningDate.create(planningDTO.date).getValue(),
-				warehouse: PlanningWarehouse.create(planningDTO.warehouse).getValue(),
-				delivery: PlanningDelivery.create(planningDTO.delivery).getValue()
+				warehouse: PlanningWarehouse.create(planningDTO.warehouse).getValue(), //TODO: Use data returned from Prolog
+				delivery: PlanningDelivery.create(planningDTO.delivery).getValue()     //TODO: Use data returned from Prolog
 			});
 
 			if (planningOrError.isFailure) {
@@ -45,6 +44,7 @@ export default class PlanningService implements IPlanningService {
 
 			const planningResult = planningOrError.getValue();
 
+			//TODO: Method save() on planningRepo not implemented.
 			await this.planningRepo.save(planningResult);
 			const planningDTOResult = PlanningMap.toDTO(planningResult) as IPlanningDTO;
 			return Result.ok<{ planningDTO: IPlanningDTO, token: string }>({
