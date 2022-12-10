@@ -8,6 +8,8 @@ import Logger from './loaders/logger';
 async function startServer() {
 	const app = express();
 
+	module.exports = app;
+
 	await require('./loaders').default({expressApp: app});
 
 	app.listen(config.port, () => {
