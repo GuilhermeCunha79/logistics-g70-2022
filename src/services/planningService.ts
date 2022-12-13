@@ -22,8 +22,10 @@ export default class PlanningService implements IPlanningService {
 
 	public async createPlanning(planningDTO: IPlanningDTO): Promise<Result<{ planningDTO: IPlanningDTO, token: string }>> {
 		try {
-			const url = "http://vs576.dei.isep.ipp.pt:8888/";
-			const path = url.concat("planning?licensePlate=" + planningDTO.licensePlate + "&heuristic=1");
+			//const url = "http://vs576.dei.isep.ipp.pt:8888/";
+			const url = "http://localhost:8888/";
+			//const path = url.concat("planning?licensePlate=" + planningDTO.licensePlate + "&heuristic=1");
+			const path = url.concat("getPlanning?date=20221205&truck=eTruck01&heuristic=1");
 
 			const res = await fetch(path);
 			const data = await res.json();
