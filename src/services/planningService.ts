@@ -23,29 +23,30 @@ export default class PlanningService implements IPlanningService {
 			console.log(planningDTO)
 			//console.log(heuristic)
 
-			let planningDocument = (await this.planningRepo.find({ planningId: planningDTO.planningId }))[0];
-
-			if (planningDocument != null) {
-				return Result.fail<{ planningDTO: IPlanningDTO, token: string }>("Planning already exists with id=" + planningDTO.planningId);
-			}
+			// let planningDocument = (await this.planningRepo.find({ planningId: planningDTO.planningId }))[0];
+			//
+			// if (planningDocument != null) {
+			// 	return Result.fail<{ planningDTO: IPlanningDTO, token: string }>("Planning already exists with id=" + planningDTO.planningId);
+			// }
 
 			const date = planningDTO.date.toString().replace(/-/g, "");
 
-			planningDocument = (await this.planningRepo.find({ licensePlate: planningDTO.licensePlate, date: date }))[0];
+			let planningDocument = (await this.planningRepo.find({ licensePlate: planningDTO.licensePlate, date: date }))[0];
 
 			if (planningDocument != null) {
 				return Result.fail<{ planningDTO: IPlanningDTO, token: string }>("Planning already exists with date=" + date + " and licencePlate=" + planningDTO.licensePlate);
 			}
 
-			//const url = "http://vs576.dei.isep.ipp.pt:8888/";
-			const url = "http://localhost:8888/";
-			const path = url.concat("getPlanning?date=20221205&truck=eTruck01&heuristic=" + heuristic);
+			const url = "http://vs576.dei.isep.ipp.pt:8888/";
+			//const url = "http://localhost:8888/";
+			const path = url.concat("getPlanning?date="+ date +"&truck=eTruck01&heuristic=" + heuristic);
 
 			const res = await fetch(path);
 			const data = await res.json();
+			console.log(data);
 
 			const planningOrError = await Planning.create({
-				planningId: PlanningId.create(planningDTO.planningId).getValue(),
+				// planningId: PlanningId.create(planningDTO.planningId).getValue(),
 				licensePlate: PlanningLicensePlate.create(planningDTO.licensePlate).getValue(),
 				date: PlanningDate.create(planningDTO.date).getValue(),
 				warehouse: PlanningWarehouse.create(data[1].toString()).getValue()

@@ -12,7 +12,7 @@ export default class PlanningController implements IPlanningController {
 	constructor(@Inject(config.services.planning.name) private planningServiceInstance: IPlanningService) {
 	}
 
-	public async createPlanning(req: Request, res: Response, next: NextFunction){
+	public async createPlanning(req: Request, res: Response, next: NextFunction) {
 		try {
 			const planningOrError = await this.planningServiceInstance.createPlanning(req.body as IPlanningDTO, req.body.heuristic) as Result<{ planningDTO: IPlanningDTO, token: string }>;
 
@@ -27,21 +27,22 @@ export default class PlanningController implements IPlanningController {
 		}
 	}
 
-	public async findPlanning(req: Request, res: Response, next: NextFunction){
+	public async findPlanning(req: Request, res: Response, next: NextFunction) {
 		try {
-			const idParameter = req.query.planningId as string;
+			// const idParameter = req.query.planningId as string;
 			const licensePlateParameter = req.query.licensePlate as string;
 			const dateParameter = req.query.date as string;
 
 			let planningOrError;
 
-			if (!idParameter && !licensePlateParameter && !dateParameter) {
+			if (!licensePlateParameter && !dateParameter) {
 				planningOrError = await this.planningServiceInstance.getPlanning() as Result<IPlanningDTO[]>;
 			}
 
-			if (idParameter) {
-				planningOrError = await this.planningServiceInstance.getPlanning({planningId: idParameter});
-			} else if (licensePlateParameter) {
+			// if (idParameter) {
+			// 	planningOrError = await this.planningServiceInstance.getPlanning({planningId: idParameter});
+			// } else
+			if (licensePlateParameter) {
 				planningOrError = await this.planningServiceInstance.getPlanning({licensePlate: licensePlateParameter});
 			} else if (dateParameter) {
 				planningOrError = await this.planningServiceInstance.getPlanning({date: dateParameter});
@@ -58,9 +59,9 @@ export default class PlanningController implements IPlanningController {
 		}
 	}
 
-	public async updatePlanning(req: Request, res: Response, next: NextFunction){
+	public async updatePlanning(req: Request, res: Response, next: NextFunction) {
 	}
 
-	public async deletePlanning(req: Request, res: Response, next: NextFunction){
+	public async deletePlanning(req: Request, res: Response, next: NextFunction) {
 	}
 }

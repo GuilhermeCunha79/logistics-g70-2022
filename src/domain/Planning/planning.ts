@@ -8,7 +8,7 @@ import {PlanningId} from "./planningId";
 import {PlanningLicensePlate} from "./planningLicensePlate";
 
 interface PlanningProps {
-	planningId: PlanningId;
+	// planningId: PlanningId;
 	licensePlate: PlanningLicensePlate;
 	date: PlanningDate;
 	warehouse:PlanningWarehouse;
@@ -20,9 +20,9 @@ export class Planning extends AggregateRoot<PlanningProps> {
 		return this._id;
 	}
 
-	get planningId(): PlanningId {
-		return this.props.planningId;
-	}
+	// get planningId(): PlanningId {
+	// 	return this.props.planningId;
+	// }
 
 	get licensePlate(): PlanningLicensePlate {
 		return this.props.licensePlate;
@@ -46,7 +46,7 @@ export class Planning extends AggregateRoot<PlanningProps> {
 
 	public static create(props: PlanningProps, id?: UniqueEntityID): Result<Planning> {
 		const guardedProps = [
-			{argument: props.planningId, argumentName: 'planningId'},
+			// {argument: props.planningId, argumentName: 'planningId'},
 			{argument: props.licensePlate, argumentName: 'licensePlate'},
 			{argument: props.date, argumentName: 'date'},
 			{argument: props.warehouse, argumentName: 'warehouse'}

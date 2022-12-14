@@ -1,5 +1,5 @@
 export default interface IPlanningDTO {
-	planningId: string;
+	// planningId: string;
 	licensePlate: string;
 	date: string;
 	warehouse: string;

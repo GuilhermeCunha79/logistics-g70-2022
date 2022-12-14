@@ -4,6 +4,7 @@ import {Planning} from "../domain/Planning/planning";
 import IPlanningRepo from "./IRepos/IPlanningRepo";
 import {IPlanningPersistence} from "../dataschema/IPlanningPersistence";
 import { PlanningMap } from "../mappers/PlanningMap";
+import {Left} from "../core/logic/Result";
 
 @Service()
 export default class PlanningRepo implements IPlanningRepo {
@@ -16,7 +17,7 @@ export default class PlanningRepo implements IPlanningRepo {
 	}
 
 	public async save(planning: Planning): Promise<Planning>{
-		const query = {planningId: planning.planningId.value};
+		const query = {licensePlate: planning.licensePlate.value, date: planning.date.value};
 		const planningDocument = await this.planningSchema.findOne(query);
 
 		try {
@@ -26,7 +27,7 @@ export default class PlanningRepo implements IPlanningRepo {
 				return PlanningMap.toDomain(planningCreated);
 			} else {
 				planningDocument.licensePlate = planning.licensePlate.value;
-				planningDocument.date = planning.date.value.toString().replace(/-/g, "");
+				planningDocument.date = planning.date.value;
 
 				await planningDocument.save();
 				return planning;

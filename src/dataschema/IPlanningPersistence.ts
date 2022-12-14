@@ -1,6 +1,6 @@
 export interface IPlanningPersistence {
 	_id: string;
-	planningId: string;
+	// planningId: string;
 	licensePlate: string;
 	date: string;
 	warehouse: string;

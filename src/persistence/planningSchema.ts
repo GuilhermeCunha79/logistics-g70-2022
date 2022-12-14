@@ -7,11 +7,11 @@ const PlanningSchema = new mongoose.Schema(
 			type: String,
 			unique: true
 		},
-		planningId: {
-			type: String,
-			required: [true, "Insert planning id."],
-			index: true
-		},
+		// planningId: {
+		// 	type: String,
+		// 	required: [true, "Insert planning id."],
+		// 	index: true
+		// },
 		licensePlate: {
 			type: String,
 			required: [true, "Insert planning license plate."],

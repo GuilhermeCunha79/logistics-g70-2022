@@ -14,7 +14,7 @@ export class PlanningMap extends Mapper<Planning> {
 
 	public static toDTO(planning: Planning): IPlanningDTO {
 		return {
-			planningId: planning.planningId.value,
+			// planningId: planning.planningId.value,
 			licensePlate: planning.licensePlate.value,
 			date: planning.date.value,
 			warehouse: planning.warehouse.value
@@ -25,7 +25,7 @@ export class PlanningMap extends Mapper<Planning> {
 
 	public static toDomain(raw: any | Model<IPlanningPersistence & Document>): Planning {
 		const planningOrError = Planning.create({
-				planningId: PlanningId.create(raw.planningId).getValue(),
+				// planningId: PlanningId.create(raw.planningId).getValue(),
 				licensePlate: PlanningLicensePlate.create(raw.licensePlate).getValue(),
 				date: PlanningDate.create(raw.date).getValue(),
 				warehouse: PlanningWarehouse.create(raw.warehouse).getValue()
@@ -40,7 +40,7 @@ export class PlanningMap extends Mapper<Planning> {
 	public static toPersistence(planning: Planning): any {
 		return {
 			domainId: planning.id.toString(),
-			planningId: planning.planningId.value,
+			// planningId: planning.planningId.value,
 			licensePlate: planning.licensePlate.value,
 			date: planning.date.value,
 			warehouse: planning.warehouse.value
