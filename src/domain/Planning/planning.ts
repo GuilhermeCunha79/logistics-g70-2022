@@ -5,7 +5,6 @@ import {Guard} from '../../core/logic/Guard';
 import {PlanningDate} from "./planningDate";
 import {PlanningWarehouse} from "./planningWarehouse";
 import {PlanningId} from "./planningId";
-import {PlanningDelivery} from "./planningDelivery";
 import {PlanningLicensePlate} from "./planningLicensePlate";
 
 interface PlanningProps {
@@ -13,7 +12,7 @@ interface PlanningProps {
 	licensePlate: PlanningLicensePlate;
 	date: PlanningDate;
 	warehouse:PlanningWarehouse;
-	delivery: PlanningDelivery;
+	//delivery: PlanningDelivery; //TODO:???
 }
 
 export class Planning extends AggregateRoot<PlanningProps> {
@@ -37,9 +36,9 @@ export class Planning extends AggregateRoot<PlanningProps> {
 		return this.props.warehouse;
 	}
 
-	get delivery(): PlanningDelivery {
+	/*get delivery(): PlanningDelivery {
 		return this.props.delivery;
-	}
+	}*/ //TODO:???
 
 	private constructor(props: PlanningProps, id?: UniqueEntityID) {
 		super(props, id);
@@ -50,8 +49,8 @@ export class Planning extends AggregateRoot<PlanningProps> {
 			{argument: props.planningId, argumentName: 'planningId'},
 			{argument: props.licensePlate, argumentName: 'licensePlate'},
 			{argument: props.date, argumentName: 'date'},
-			{argument: props.warehouse, argumentName: 'warehouse'},
-			{argument: props.delivery, argumentName: 'delivery'}
+			{argument: props.warehouse, argumentName: 'warehouse'}
+			//{argument: props.delivery, argumentName: 'delivery'} //TODO:???
 		];
 
 		const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);

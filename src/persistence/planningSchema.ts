@@ -18,7 +18,7 @@ const PlanningSchema = new mongoose.Schema(
 			index: true
 		},
 		date: {
-			type: Number,
+			type: String,
 			required: [true, "Insert planning date."],
 			index: true
 		},
@@ -26,12 +26,12 @@ const PlanningSchema = new mongoose.Schema(
 			type: String,
 			required: [true, "Insert planning warehouse."],
 			index: true
-		},
-		delivery: {
+		}
+		/*delivery: {
 			type: String,
 			required: [true, "Insert planning delivery."],
 			index: true
-		}
+		}*/ //TODO:???
 	},
 	{
 		timestamps: true

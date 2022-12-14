@@ -2,7 +2,7 @@ import {Result} from '../../core/logic/Result';
 import IPlanningDTO from "../../dto/IPlanningDTO";
 
 export default interface IPlanningService {
-	createPlanning(planningDTO: IPlanningDTO): Promise<Result<{ planningDTO: IPlanningDTO, token: string }>>;
+	createPlanning(planningDTO: IPlanningDTO, heuristic: string): Promise<Result<{ planningDTO: IPlanningDTO, token: string }>>;
 
 	getPlanning(query?: any): Promise<Result<IPlanningDTO[]>>;
 

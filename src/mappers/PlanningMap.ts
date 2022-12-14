@@ -9,7 +9,6 @@ import {IPlanningPersistence} from "../dataschema/IPlanningPersistence";
 import {PlanningLicensePlate} from "../domain/Planning/planningLicensePlate";
 import {PlanningDate} from "../domain/Planning/planningDate";
 import {PlanningWarehouse} from "../domain/Planning/planningWarehouse";
-import {PlanningDelivery} from "../domain/Planning/planningDelivery";
 
 export class PlanningMap extends Mapper<Planning> {
 
@@ -18,8 +17,8 @@ export class PlanningMap extends Mapper<Planning> {
 			planningId: planning.planningId.value,
 			licensePlate: planning.licensePlate.value,
 			date: planning.date.value,
-			warehouse: planning.warehouse.value,
-			delivery: planning.delivery.value
+			warehouse: planning.warehouse.value
+			//delivery: planning.delivery.value //TODO:???
 
 		} as IPlanningDTO;
 	}
@@ -29,8 +28,8 @@ export class PlanningMap extends Mapper<Planning> {
 				planningId: PlanningId.create(raw.planningId).getValue(),
 				licensePlate: PlanningLicensePlate.create(raw.licensePlate).getValue(),
 				date: PlanningDate.create(raw.date).getValue(),
-				warehouse: PlanningWarehouse.create(raw.warehouse).getValue(),
-				delivery: PlanningDelivery.create(raw.delivery).getValue()
+				warehouse: PlanningWarehouse.create(raw.warehouse).getValue()
+				//delivery: PlanningDelivery.create(raw.delivery).getValue() //TODO:???
 			}, new UniqueEntityID(raw.domainId)
 		);
 
@@ -44,8 +43,8 @@ export class PlanningMap extends Mapper<Planning> {
 			planningId: planning.planningId.value,
 			licensePlate: planning.licensePlate.value,
 			date: planning.date.value,
-			warehouse: planning.warehouse.value,
-			delivery: planning.delivery.value
+			warehouse: planning.warehouse.value
+			//delivery: planning.delivery.value //TODO:???
 		};
 	}
 }

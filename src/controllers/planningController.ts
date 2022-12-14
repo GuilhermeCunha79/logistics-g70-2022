@@ -14,7 +14,7 @@ export default class PlanningController implements IPlanningController {
 
 	public async createPlanning(req: Request, res: Response, next: NextFunction){
 		try {
-			const planningOrError = await this.planningServiceInstance.createPlanning(req.body as IPlanningDTO) as Result<{ planningDTO: IPlanningDTO, token: string }>;
+			const planningOrError = await this.planningServiceInstance.createPlanning(req.body as IPlanningDTO, req.body.heuristic) as Result<{ planningDTO: IPlanningDTO, token: string }>;
 
 			if (planningOrError.isFailure) {
 				return res.status(400).json(planningOrError.error);
@@ -28,6 +28,34 @@ export default class PlanningController implements IPlanningController {
 	}
 
 	public async findPlanning(req: Request, res: Response, next: NextFunction){
+		try {
+			const idParameter = req.query.planningId as string;
+			const licensePlateParameter = req.query.licensePlate as string;
+			const dateParameter = req.query.date as string;
+
+			let planningOrError;
+
+			if (!idParameter && !licensePlateParameter && !dateParameter) {
+				planningOrError = await this.planningServiceInstance.getPlanning() as Result<IPlanningDTO[]>;
+			}
+
+			if (idParameter) {
+				planningOrError = await this.planningServiceInstance.getPlanning({planningId: idParameter});
+			} else if (licensePlateParameter) {
+				planningOrError = await this.planningServiceInstance.getPlanning({licensePlate: licensePlateParameter});
+			} else if (dateParameter) {
+				planningOrError = await this.planningServiceInstance.getPlanning({date: dateParameter});
+			}
+
+			if (planningOrError.isFailure) {
+				return res.status(404).json(planningOrError.error);
+			}
+
+			const planningDTO = planningOrError.getValue();
+			return res.status(200).json(planningDTO);
+		} catch (e) {
+			return next(e);
+		}
 	}
 
 	public async updatePlanning(req: Request, res: Response, next: NextFunction){

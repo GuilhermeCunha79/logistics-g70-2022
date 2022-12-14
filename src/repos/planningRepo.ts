@@ -3,6 +3,7 @@ import {Document, Model} from 'mongoose';
 import {Planning} from "../domain/Planning/planning";
 import IPlanningRepo from "./IRepos/IPlanningRepo";
 import {IPlanningPersistence} from "../dataschema/IPlanningPersistence";
+import { PlanningMap } from "../mappers/PlanningMap";
 
 @Service()
 export default class PlanningRepo implements IPlanningRepo {
@@ -15,12 +16,33 @@ export default class PlanningRepo implements IPlanningRepo {
 	}
 
 	public async save(planning: Planning): Promise<Planning>{
-		//TODO
-		throw new Error('Method not implemented.');
+		const query = {planningId: planning.planningId.value};
+		const planningDocument = await this.planningSchema.findOne(query);
+
+		try {
+			if (planningDocument === null) {
+				const rawPlanning: any = PlanningMap.toPersistence(planning);
+				const planningCreated = await this.planningSchema.create(rawPlanning);
+				return PlanningMap.toDomain(planningCreated);
+			} else {
+				planningDocument.licensePlate = planning.licensePlate.value;
+				planningDocument.date = planning.date.value.toString().replace(/-/g, "");
+
+				await planningDocument.save();
+				return planning;
+			}
+		} catch (err) {
+			throw err;
+		}
 	}
 
 	public async find(query?: any): Promise<Planning[]>{
-		throw new Error('Method not implemented.');
+		const planningRecord = await this.planningSchema.find(query);
+
+		if (planningRecord != null) {
+			return (planningRecord.map((postRecord) => PlanningMap.toDomain(postRecord)));
+		}
+		return null;
 	}
 
 	public async delete(planningId: string): Promise<Planning>{

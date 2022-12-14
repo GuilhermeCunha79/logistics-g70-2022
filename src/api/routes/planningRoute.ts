@@ -17,9 +17,8 @@ export default (app: Router) => {
 			body: Joi.object({
 				planningId: Joi.string().required(),
 				licensePlate: Joi.string().required(),
-				date: Joi.number().required(),
-				warehouse: Joi.string().required(),
-				delivery: Joi.string().required(),
+				date: Joi.string().required(),
+				heuristic: Joi.string().required()
 			})
 		}),
 		(req, res, next) => ctrl.createPlanning(req, res, next));
@@ -31,9 +30,7 @@ export default (app: Router) => {
 			body: Joi.object({
 				planningId: Joi.string().required(),
 				licensePlate: Joi.string().required(),
-				date: Joi.number().required(),
-				warehouse: Joi.string().required(),
-				delivery: Joi.string().required(),
+				date: Joi.string().required()
 			})
 		}),
 		(req, res, next) => ctrl.updatePlanning(req, res, next));
