@@ -25,6 +25,11 @@ export default async ({expressApp}) => {
 		schema: '../persistence/routeSchema',
 	};
 
+	const userSchema = {
+		name: 'userSchema',
+		schema: '../persistence/userSchema',
+	};
+
 	const planningController = {
 		name: config.controllers.planning.name,
 		path: config.controllers.planning.path
@@ -70,27 +75,46 @@ export default async ({expressApp}) => {
 		path: config.services.truck.path
 	}
 
+	const userController = {
+		name: config.controllers.user.name,
+		path: config.controllers.user.path
+	}
+
+	const userRepo = {
+		name: config.repos.user.name,
+		path: config.repos.user.path
+	}
+
+	const userService = {
+		name: config.services.user.name,
+		path: config.services.user.path
+	}
+
 	await dependencyInjectorLoader({
 		mongoConnection,
 		schemas: [
 			planningSchema,
 			routeSchema,
-			truckSchema
+			truckSchema,
+			userSchema
 		],
 		controllers: [
 			planningController,
 			routeController,
-			truckController
+			truckController,
+			userController
 		],
 		repos: [
 			planningRepo,
 			routeRepo,
-			truckRepo
+			truckRepo,
+			userRepo
 		],
 		services: [
 			planningService,
 			routeService,
-			truckService
+			truckService,
+			userService
 		]
 	});
 
