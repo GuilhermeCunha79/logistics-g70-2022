@@ -23,7 +23,7 @@ const UserSchema = new mongoose.Schema(
 			index: true
 		},
 		role: {
-			type: String,
+			type: Number,
 			required: [true, "Insert user role."],
 			index: true
 		}

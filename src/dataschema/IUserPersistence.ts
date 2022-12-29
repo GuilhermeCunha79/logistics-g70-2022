@@ -3,5 +3,5 @@ export interface IUserPersistence {
 	email: string;
 	password: string;
 	phoneNumber: string;
-	role: string;
+	role: number;
 }
