@@ -3,7 +3,6 @@ import {UniqueEntityID} from '../../core/domain/UniqueEntityID';
 import {Result} from '../../core/logic/Result';
 import {Guard} from '../../core/logic/Guard';
 
-
 import {RouteId} from "./routeId";
 import {RouteOrigin} from "./routeOrigin";
 import {RouteDestination} from "./routeDestination";

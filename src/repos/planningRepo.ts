@@ -3,8 +3,7 @@ import {Document, Model} from 'mongoose';
 import {Planning} from "../domain/Planning/planning";
 import IPlanningRepo from "./IRepos/IPlanningRepo";
 import {IPlanningPersistence} from "../dataschema/IPlanningPersistence";
-import { PlanningMap } from "../mappers/PlanningMap";
-import {Left} from "../core/logic/Result";
+import { PlanningMap } from "../mappers/planningMap";
 
 @Service()
 export default class PlanningRepo implements IPlanningRepo {

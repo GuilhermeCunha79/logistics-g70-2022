@@ -15,7 +15,6 @@ export default (app: Router) => {
 	planningRoute.post('',
 		celebrate({
 			body: Joi.object({
-				// planningId: Joi.string().required(),
 				licensePlate: Joi.string().required(),
 				date: Joi.string().required(),
 				heuristic: Joi.string().required()
@@ -28,7 +27,6 @@ export default (app: Router) => {
 	planningRoute.put('',
 		celebrate({
 			body: Joi.object({
-				// planningId: Joi.string().required(),
 				licensePlate: Joi.string().required(),
 				date: Joi.string().required()
 			})

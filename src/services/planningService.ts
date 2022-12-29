@@ -7,10 +7,9 @@ import { PlanningLicensePlate } from "../domain/Planning/planningLicensePlate";
 import { PlanningDate } from "../domain/Planning/planningDate";
 import { PlanningWarehouse } from "../domain/Planning/planningWarehouse";
 import { Planning } from "../domain/Planning/planning";
-import { PlanningId } from "../domain/Planning/planningId";
 import IPlanningService from "./IServices/IPlanningService";
 import IPlanningRepo from "../repos/IRepos/IPlanningRepo";
-import { PlanningMap } from "../mappers/PlanningMap";
+import { PlanningMap } from "../mappers/planningMap";
 import fetch = require("node-fetch");
 
 @Service()
@@ -20,15 +19,6 @@ export default class PlanningService implements IPlanningService {
 
 	public async createPlanning(planningDTO: IPlanningDTO, heuristic: string): Promise<Result<{ planningDTO: IPlanningDTO, token: string }>> {
 		try {
-			console.log(planningDTO)
-			//console.log(heuristic)
-
-			// let planningDocument = (await this.planningRepo.find({ planningId: planningDTO.planningId }))[0];
-			//
-			// if (planningDocument != null) {
-			// 	return Result.fail<{ planningDTO: IPlanningDTO, token: string }>("Planning already exists with id=" + planningDTO.planningId);
-			// }
-
 			const date = planningDTO.date.toString().replace(/-/g, "");
 
 			let planningDocument = (await this.planningRepo.find({ licensePlate: planningDTO.licensePlate, date: date }))[0];
@@ -43,14 +33,11 @@ export default class PlanningService implements IPlanningService {
 
 			const res = await fetch(path);
 			const data = await res.json();
-			console.log(data);
 
 			const planningOrError = await Planning.create({
-				// planningId: PlanningId.create(planningDTO.planningId).getValue(),
 				licensePlate: PlanningLicensePlate.create(planningDTO.licensePlate).getValue(),
 				date: PlanningDate.create(planningDTO.date).getValue(),
 				warehouse: PlanningWarehouse.create(data[1].toString()).getValue()
-				//delivery: PlanningDelivery.create(planningDTO.delivery).getValue() //TODO:???
 			});
 
 			if (planningOrError.isFailure) {

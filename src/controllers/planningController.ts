@@ -29,7 +29,6 @@ export default class PlanningController implements IPlanningController {
 
 	public async findPlanning(req: Request, res: Response, next: NextFunction) {
 		try {
-			// const idParameter = req.query.planningId as string;
 			const licensePlateParameter = req.query.licensePlate as string;
 			const dateParameter = req.query.date as string;
 
@@ -39,9 +38,6 @@ export default class PlanningController implements IPlanningController {
 				planningOrError = await this.planningServiceInstance.getPlanning() as Result<IPlanningDTO[]>;
 			}
 
-			// if (idParameter) {
-			// 	planningOrError = await this.planningServiceInstance.getPlanning({planningId: idParameter});
-			// } else
 			if (licensePlateParameter) {
 				planningOrError = await this.planningServiceInstance.getPlanning({licensePlate: licensePlateParameter});
 			} else if (dateParameter) {

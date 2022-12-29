@@ -7,11 +7,6 @@ const PlanningSchema = new mongoose.Schema(
 			type: String,
 			unique: true
 		},
-		// planningId: {
-		// 	type: String,
-		// 	required: [true, "Insert planning id."],
-		// 	index: true
-		// },
 		licensePlate: {
 			type: String,
 			required: [true, "Insert planning license plate."],
@@ -27,11 +22,6 @@ const PlanningSchema = new mongoose.Schema(
 			required: [true, "Insert planning warehouse."],
 			index: true
 		}
-		/*delivery: {
-			type: String,
-			required: [true, "Insert planning delivery."],
-			index: true
-		}*/ //TODO:???
 	},
 	{
 		timestamps: true
