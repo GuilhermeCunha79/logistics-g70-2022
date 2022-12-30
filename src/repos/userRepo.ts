@@ -1,9 +1,10 @@
 import {Inject, Service} from 'typedi';
-import {Document, Model} from 'mongoose';
+import {Document, FilterQuery, Model} from 'mongoose';
 import {User} from "../domain/User/user";
 import IUserRepo from "./IRepos/IUserRepo";
 import {IUserPersistence} from "../dataschema/IUserPersistence";
-import { UserMap } from "../mappers/userMap";
+import {UserMap} from "../mappers/userMap";
+import {UserEmail} from "../domain/User/userEmail";
 
 @Service()
 export default class UserRepo implements IUserRepo {
@@ -15,7 +16,7 @@ export default class UserRepo implements IUserRepo {
 		throw new Error('Method not implemented.');
 	}
 
-	public async save(user: User): Promise<User>{
+	public async save(user: User): Promise<User> {
 		const query = {email: user.email.value};
 		const userDocument = await this.userSchema.findOne(query);
 
@@ -38,7 +39,7 @@ export default class UserRepo implements IUserRepo {
 		}
 	}
 
-	public async find(query?: any): Promise<User[]>{
+	public async find(query?: any): Promise<User[]> {
 		const userRecord = await this.userSchema.find(query);
 
 		if (userRecord != null) {
@@ -47,7 +48,25 @@ export default class UserRepo implements IUserRepo {
 		return null;
 	}
 
-	public async delete(userId: string): Promise<User>{
-		throw new Error('Method not implemented.');
+
+	public async delete(userId: string): Promise<User> {
+		const query = {licensePlate: userId};
+		const userDocument = await this.userSchema.findOne(query);
+
+		if (userDocument != null) {
+			userDocument.remove();
+			return UserMap.toDomain(userDocument);
+		}
+		return null;
+	}
+
+	public async findByEmail(userEmail: UserEmail | string): Promise<User> {
+		const query = {userEmail: userEmail};
+		const userRecord = await this.userSchema.findOne(query as FilterQuery<IUserPersistence & Document>);
+
+		if (userRecord != null) {
+			return UserMap.toDomain(userRecord);
+		}
+		return null;
 	}
 }
