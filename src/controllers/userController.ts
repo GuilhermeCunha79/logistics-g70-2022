@@ -1,7 +1,7 @@
-import {NextFunction, Request, Response} from 'express';
-import {Inject, Service} from 'typedi';
+import { NextFunction, Request, Response } from "express";
+import { Inject, Service } from "typedi";
 import config from "../../config";
-import {Result} from "../core/logic/Result";
+import { Result } from "../core/logic/Result";
 
 import IUserService from "../services/IServices/IUserService";
 import IUserController from "./IControllers/IUserController";
@@ -29,17 +29,10 @@ export default class UserController implements IUserController {
 
 	public async findUser(req: Request, res: Response, next: NextFunction) {
 		try {
-			const emailParameter = req.query.licensePlate as string;
+			const emailParameter = req.query.email as string;
+			const passwordParameter = req.query.password as string;
 
-			let userOrError;
-
-			if (!emailParameter) {
-				userOrError = await this.userServiceInstance.getUser() as Result<IUserDTO[]>;
-			}
-
-			if (emailParameter) {
-				userOrError = await this.userServiceInstance.getUser({email: emailParameter});
-			}
+			const userOrError = await this.userServiceInstance.getUser({ email: emailParameter }, passwordParameter);
 
 			if (userOrError.isFailure) {
 				return res.status(404).json(userOrError.error);
