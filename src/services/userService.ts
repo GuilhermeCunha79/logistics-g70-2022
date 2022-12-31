@@ -82,20 +82,6 @@ export default class UserService implements IUserService {
 	}
 
 	public async deleteUser(email: string): Promise<Result<{ userDTO: IUserDTO, token: string }>> {
-		try {
-			const user = await this.userRepo.findByEmail(email);
-
-			if (user === null) {
-				return Result.fail<{ userDTO: IUserDTO, token: string }>("User not found.");
-			}
-
-			await this.userRepo.delete(user.email.value);
-			return Result.ok<{ userDTO: IUserDTO, token: string }>({
-				userDTO: UserMap.toDTO(user),
-				token: "User deleted successfully."
-			});
-		} catch (e) {
-			throw e;
-		}
+		return null;
 	}
 }
