@@ -7,10 +7,13 @@ import { UserEmail } from "./userEmail";
 import { UserPassword } from "./userPassword";
 import { UserPhoneNumber } from "./userPhoneNumber";
 import { UserRole } from "./userRole";
+import { UserName } from "./userName";
 
 interface UserProps {
 	email: UserEmail;
 	password: UserPassword;
+	firstName: UserName;
+	lastName: UserName;
 	phoneNumber: UserPhoneNumber;
 	role: UserRole;
 }
@@ -29,6 +32,14 @@ export class User extends AggregateRoot<UserProps> {
 		return this.props.password;
 	}
 
+	get firstName(): UserName {
+		return this.props.firstName;
+	}
+
+	get lastName(): UserName {
+		return this.props.lastName;
+	}
+
 	get phoneNumber(): UserPhoneNumber {
 		return this.props.phoneNumber;
 	}
@@ -41,6 +52,8 @@ export class User extends AggregateRoot<UserProps> {
 		const guardedProps = [
 			{ argument: props.email, argumentName: "userEmail" },
 			{ argument: props.password, argumentName: "userPassword" },
+			{ argument: props.firstName, argumentName: "name" },
+			{ argument: props.lastName, argumentName: "name" },
 			{ argument: props.phoneNumber, argumentName: "userPhoneNumber" },
 			{ argument: props.role, argumentName: "userRole" }
 		];

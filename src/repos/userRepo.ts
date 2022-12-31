@@ -1,23 +1,22 @@
-import {Inject, Service} from 'typedi';
-import {Document, FilterQuery, Model} from 'mongoose';
-import {User} from "../domain/User/user";
+import { Inject, Service } from "typedi";
+import { Document, Model } from "mongoose";
+import { User } from "../domain/User/user";
 import IUserRepo from "./IRepos/IUserRepo";
-import {IUserPersistence} from "../dataschema/IUserPersistence";
-import {UserMap} from "../mappers/userMap";
-import {UserEmail} from "../domain/User/userEmail";
+import { IUserPersistence } from "../dataschema/IUserPersistence";
+import { UserMap } from "../mappers/userMap";
 
 @Service()
 export default class UserRepo implements IUserRepo {
 
-	constructor(@Inject('userSchema') private userSchema: Model<IUserPersistence & Document>) {
+	constructor(@Inject("userSchema") private userSchema: Model<IUserPersistence & Document>) {
 	}
 
 	exists(t: User): Promise<boolean> {
-		throw new Error('Method not implemented.');
+		throw new Error("Method not implemented.");
 	}
 
 	public async save(user: User): Promise<User> {
-		const query = {email: user.email.value};
+		const query = { email: user.email.value };
 		const userDocument = await this.userSchema.findOne(query);
 
 		try {
@@ -28,6 +27,8 @@ export default class UserRepo implements IUserRepo {
 			} else {
 				userDocument.email = user.email.value;
 				userDocument.password = user.password.value;
+				userDocument.firstName = user.firstName.value;
+				userDocument.lastName = user.lastName.value;
 				userDocument.phoneNumber = user.phoneNumber.value;
 				userDocument.role = user.role.value;
 
@@ -48,25 +49,7 @@ export default class UserRepo implements IUserRepo {
 		return null;
 	}
 
-
 	public async delete(userId: string): Promise<User> {
-		const query = {licensePlate: userId};
-		const userDocument = await this.userSchema.findOne(query);
-
-		if (userDocument != null) {
-			userDocument.remove();
-			return UserMap.toDomain(userDocument);
-		}
-		return null;
-	}
-
-	public async findByEmail(userEmail: UserEmail | string): Promise<User> {
-		const query = {userEmail: userEmail};
-		const userRecord = await this.userSchema.findOne(query as FilterQuery<IUserPersistence & Document>);
-
-		if (userRecord != null) {
-			return UserMap.toDomain(userRecord);
-		}
-		return null;
+		throw new Error("Method not implemented.");
 	}
 }

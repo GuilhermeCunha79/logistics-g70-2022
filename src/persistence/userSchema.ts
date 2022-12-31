@@ -17,6 +17,16 @@ const UserSchema = new mongoose.Schema(
 			required: [true, "Insert user password."],
 			index: true
 		},
+		firstName: {
+			type: String,
+			required: [true, "Insert user first name."],
+			index: true
+		},
+		lastName: {
+			type: String,
+			required: [true, "Insert user last name."],
+			index: true
+		},
 		phoneNumber: {
 			type: String,
 			required: [true, "Insert user phoneNumber."],

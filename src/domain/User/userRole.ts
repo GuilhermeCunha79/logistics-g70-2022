@@ -18,7 +18,7 @@ export class UserRole extends ValueObject<IRoleProps> {
 
 		if (!guardResult.succeeded) {
 			return Result.fail<UserRole>(guardResult.message);
-		} else if (role >= 0 && role <= 4) {
+		} else if (role >= 1 && role <= 5) {
 			return Result.ok<UserRole>(new UserRole({ value: role }));
 		} else {
 			return Result.fail<UserRole>("Role code is invalid.");

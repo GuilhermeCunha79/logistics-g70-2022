@@ -17,6 +17,8 @@ export default (app: Router) => {
 			body: Joi.object({
 				email: Joi.string().required(),
 				password: Joi.string().required(),
+				firstName: Joi.string().required(),
+				lastName: Joi.string().required(),
 				phoneNumber: Joi.string().required(),
 				role: Joi.number().required(),
 			})
@@ -30,6 +32,8 @@ export default (app: Router) => {
 			body: Joi.object({
 				email: Joi.string().required(),
 				password: Joi.string().required(),
+				firstName: Joi.string().required(),
+				lastName: Joi.string().required(),
 				phoneNumber: Joi.string().required(),
 				role: Joi.number().required(),
 			})

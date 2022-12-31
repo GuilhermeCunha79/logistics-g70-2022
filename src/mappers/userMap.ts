@@ -9,6 +9,7 @@ import { UserEmail } from "../domain/User/userEmail";
 import { UserPassword } from "../domain/User/userPassword";
 import { UserPhoneNumber } from "../domain/User/userPhoneNumber";
 import { UserRole } from "../domain/User/userRole";
+import { UserName } from "../domain/User/userName";
 
 export class UserMap extends Mapper<User> {
 
@@ -16,6 +17,8 @@ export class UserMap extends Mapper<User> {
 		return {
 			email: user.email.value,
 			password: user.password.value,
+			firstName: user.firstName.value,
+			lastName: user.lastName.value,
 			phoneNumber: user.phoneNumber.value,
 			role: user.role.value
 		} as IUserDTO;
@@ -25,6 +28,8 @@ export class UserMap extends Mapper<User> {
 		const userOrError = User.create({
 			email: UserEmail.create(raw.email).getValue(),
 			password: UserPassword.create(raw.password).getValue(),
+			firstName: UserName.create(raw.firstName).getValue(),
+			lastName: UserName.create(raw.lastName).getValue(),
 			phoneNumber: UserPhoneNumber.create(raw.phoneNumber).getValue(),
 			role: UserRole.create(raw.role).getValue()
 			}, new UniqueEntityID(raw.domainId)
@@ -39,6 +44,8 @@ export class UserMap extends Mapper<User> {
 			domainId: user.id.toString(),
 			email: user.email.value,
 			password: user.password.value,
+			firstName: user.firstName.value,
+			lastName: user.lastName.value,
 			phoneNumber: user.phoneNumber.value,
 			role: user.role.value
 		};
