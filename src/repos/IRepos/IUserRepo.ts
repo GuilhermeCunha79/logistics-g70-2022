@@ -6,5 +6,5 @@ export default interface IUserRepo extends Repo<User> {
 
 	find(query?: any): Promise<User[]>;
 
-	delete(email: string, password: string): Promise<User>;
+	delete(query: any): Promise<User>;
 }

@@ -8,5 +8,5 @@ export default interface IUserService {
 
 	updateUser(userDTO: IUserDTO): Promise<Result<{ userDTO: IUserDTO, token: string }>>;
 
-	deleteUser(email: string): Promise<Result<{ userDTO: IUserDTO, token: string }>>;
+	deleteUser(query: any, password: string): Promise<Result<{ userDTO: IUserDTO, token: string }>>;
 }

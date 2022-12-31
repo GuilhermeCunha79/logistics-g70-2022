@@ -49,7 +49,13 @@ export default class UserRepo implements IUserRepo {
 		return null;
 	}
 
-	public async delete(userId: string): Promise<User> {
-		throw new Error("Method not implemented.");
+	public async delete(query: any): Promise<User> {
+		const userRecord = await this.userSchema.findOne(query);
+
+		if (userRecord != null) {
+			userRecord.remove();
+			return UserMap.toDomain(userRecord);
+		}
+		return null;
 	}
 }

@@ -81,7 +81,27 @@ export default class UserService implements IUserService {
 		return null;
 	}
 
-	public async deleteUser(email: string): Promise<Result<{ userDTO: IUserDTO, token: string }>> {
-		return null;
+	public async deleteUser(query: any, password: string): Promise<Result<{ userDTO: IUserDTO, token: string }>> {
+		try {
+			const userList = (await this.userRepo.find(query))[0];
+
+			if (!userList) {
+				return Result.fail<{ userDTO: IUserDTO, token: string }>("User not found.");
+			}
+
+			const validPassword = await argon2.verify(userList.password.value, password);
+
+			if (!validPassword) {
+				return Result.fail<{ userDTO: IUserDTO, token: string }>("Password doesn't match.");
+			}
+
+			await this.userRepo.delete(query);
+			return Result.ok<{ userDTO: IUserDTO, token: string }>({
+				userDTO: UserMap.toDTO(userList),
+				token: "User deleted successfully."
+			});
+		} catch (e) {
+			throw e;
+		}
 	}
 }
