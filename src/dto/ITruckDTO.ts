@@ -5,4 +5,5 @@ export default interface ITruckDTO {
 	capacityTransportation: number;
 	battery: number;
 	tare: number;
+	status: boolean;
 }
