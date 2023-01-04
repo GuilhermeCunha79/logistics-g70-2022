@@ -13,8 +13,10 @@ export default class TruckController implements ITruckController {
 	}
 
 	public async createTruck(req: Request, res: Response, next: NextFunction) {
+
 		try {
 			const truckOrError = await this.truckServiceInstance.createTruck(req.body as ITruckDTO) as Result<{ truckDTO: ITruckDTO, token: string }>;
+
 
 			if (truckOrError.isFailure) {
 				return res.status(400).json(truckOrError.error);
@@ -98,4 +100,45 @@ export default class TruckController implements ITruckController {
 			return next(e);
 		}
 	}
+
+	public async changeStatus(req: Request, res: Response, next: NextFunction){
+		try {
+			const novo = await this.truckServiceInstance.changeStatus(req.body as string) as Result<{ truckDTO: ITruckDTO, token: string }>;
+
+			if (novo.isFailure) {
+				return res.status(400).send();
+			}
+
+			const truckPosts = novo.getValue();
+			res.status(200);
+			return  res.json(truckPosts);
+		} catch(e) {
+			return next(e);
+		}
+	}
+
+	public async softDelete(req: Request, res: Response, next: NextFunction){
+
+		try {
+			const licensePlateParameter=req.query.licensePlate as string;
+
+			if (!licensePlateParameter){
+				return res.status(400).json("Is required a license plate.");
+			}
+			const novo = await this.truckServiceInstance.softDelete(licensePlateParameter) as Result<{ truckDTO: ITruckDTO, token: string }>;
+
+			if (novo.isFailure) {
+				return res.status(400).send();
+			}
+
+			const truckPosts = novo.getValue();
+			res.status(200);
+			return  res.json(truckPosts);
+		} catch(e) {
+			return next(e);
+		}
+
+
+	}
+
 }
