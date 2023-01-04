@@ -36,10 +36,14 @@ const TruckSchema = new mongoose.Schema(
 			type: Number,
 			required: [true, "Insert truck's tare."],
 			index: true
+		},
+		status: {
+			type: Boolean,
+			index: true
 		}
 	},
 	{
-		timestamps: true
+		timestamps: true,
 	}
 );
 

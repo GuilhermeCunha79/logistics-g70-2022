@@ -21,7 +21,8 @@ export class TruckMap extends Mapper<Truck> {
 			capacityCargo: truck.capacityCargo.value,
 			capacityTransportation: truck.capacityTransportation.value,
 			battery: truck.battery.value,
-			tare: truck.tare.value
+			tare: truck.tare.value,
+			status: truck.status
 		} as ITruckDTO;
 	}
 
@@ -32,7 +33,8 @@ export class TruckMap extends Mapper<Truck> {
 				capacityTransportation: TruckCapacityTransportation.create(raw.capacityTransportation).getValue(),
 				autonomy: TruckAutonomy.create(raw.autonomy).getValue(),
 				battery: TruckBattery.create(raw.battery).getValue(),
-				tare: TruckTare.create(raw.tare).getValue()
+				tare: TruckTare.create(raw.tare).getValue(),
+				status: raw.status
 			}, new UniqueEntityID(raw.domainId)
 		);
 
@@ -48,7 +50,8 @@ export class TruckMap extends Mapper<Truck> {
 			capacityCargo: truck.capacityCargo.value,
 			capacityTransportation: truck.capacityTransportation.value,
 			battery: truck.battery.value,
-			tare: truck.tare.value
+			tare: truck.tare.value,
+			status: truck.status
 		};
 	}
 }

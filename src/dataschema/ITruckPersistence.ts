@@ -6,4 +6,5 @@ export interface ITruckPersistence {
 	capacityTransportation: number;
 	battery: number;
 	tare: number;
+	status: boolean;
 }

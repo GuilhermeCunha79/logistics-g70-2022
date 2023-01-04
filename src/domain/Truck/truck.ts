@@ -17,6 +17,7 @@ interface TruckProps {
 	capacityTransportation: TruckCapacityTransportation;
 	battery: TruckBattery;
 	tare: TruckTare;
+	status: boolean;
 }
 
 export class Truck extends AggregateRoot<TruckProps> {
@@ -48,6 +49,10 @@ export class Truck extends AggregateRoot<TruckProps> {
 		return this.props.tare;
 	}
 
+	get status(): boolean {
+		return this.props.status;
+	}
+
 	set autonomy(value: TruckAutonomy) {
 		this.props.autonomy = value;
 	}
@@ -68,6 +73,15 @@ export class Truck extends AggregateRoot<TruckProps> {
 		this.props.tare = value;
 	}
 
+	set status(value: boolean){
+		this.props.status= value;
+	}
+
+
+	public changeStatus() {
+		this.props.status=!this.props.status;
+	}
+
 	private constructor(props: TruckProps, id?: UniqueEntityID) {
 		super(props, id);
 	}
@@ -79,7 +93,8 @@ export class Truck extends AggregateRoot<TruckProps> {
 			{argument: props.capacityCargo, argumentName: 'capacityCargo'},
 			{argument: props.capacityTransportation, argumentName: 'capacityTransportation'},
 			{argument: props.battery, argumentName: 'battery'},
-			{argument: props.tare, argumentName: 'tare'}
+			{argument: props.tare, argumentName: 'tare'},
+			{argument: props.status, argumentName: 'status'},
 		];
 
 		const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
@@ -91,4 +106,5 @@ export class Truck extends AggregateRoot<TruckProps> {
 			return Result.ok<Truck>(truck);
 		}
 	}
+
 }
