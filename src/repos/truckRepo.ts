@@ -32,6 +32,7 @@ export default class TruckRepo implements ITruckRepo {
 				truckDocument.capacityTransportation = truck.capacityTransportation.value;
 				truckDocument.battery = truck.battery.value;
 				truckDocument.tare = truck.tare.value;
+				truckDocument.status= truck.status;
 
 				await truckDocument.save();
 				return truck;
@@ -41,8 +42,19 @@ export default class TruckRepo implements ITruckRepo {
 		}
 	}
 
-	public async findByDomainId(licensePlate: TruckLicensePlate | string): Promise<Truck> {
-		const query = {licensePlate: licensePlate};
+	public async findByDomainId(licensePlates: TruckLicensePlate | string): Promise<Truck> {
+		const query = {licensePlate: licensePlates};
+		const truckRecord = await this.truckSchema.findOne(query as FilterQuery<ITruckPersistence & Document>);
+
+		if (truckRecord != null) {
+			return TruckMap.toDomain(truckRecord);
+		}
+		return null;
+	}
+
+
+	public async findByDomainIdd(licensePlates: TruckLicensePlate | string): Promise<Truck> {
+		const query = {licensePlate: licensePlates};
 		const truckRecord = await this.truckSchema.findOne(query as FilterQuery<ITruckPersistence & Document>);
 
 		if (truckRecord != null) {
