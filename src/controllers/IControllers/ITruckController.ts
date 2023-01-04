@@ -10,4 +10,8 @@ export default interface ITruckController {
 	updateTruck(req: Request, res: Response, next: NextFunction);
 
 	deleteTruckById(req: Request, res: Response, next: NextFunction);
+
+	changeStatus(req: Request, res: Response, next: NextFunction);
+
+	softDelete(req: Request, res: Response, next: NextFunction);
 }
