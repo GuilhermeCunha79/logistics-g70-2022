@@ -12,6 +12,7 @@ import {TruckCapacityTransportation} from "../domain/Truck/truckCapacityTranspor
 import {TruckTare} from "../domain/Truck/truckTare";
 import {TruckBattery} from "../domain/Truck/truckBattery";
 import {TruckLicensePlate} from "../domain/Truck/truckLicensePlate";
+import truckRoute from "../api/routes/truckRoute";
 
 @Service()
 export default class TruckService implements ITruckService {
@@ -20,13 +21,11 @@ export default class TruckService implements ITruckService {
 
 	public async createTruck(truckDTO: ITruckDTO): Promise<Result<{ truckDTO: ITruckDTO, token: string }>> {
 		try {
+
 			const truckDocument = await this.truckRepo.findByDomainId(truckDTO.licensePlate);
-
-
 			if (truckDocument != null) {
 				return Result.fail<{ truckDTO: ITruckDTO, token: string }>("Truck already exists with licensePlate=" + truckDTO.licensePlate);
 			}
-
 			const truckOrError = await Truck.create({
 				licensePlate: TruckLicensePlate.create(truckDTO.licensePlate).getValue(),
 				autonomy: TruckAutonomy.create(truckDTO.autonomy).getValue(),
@@ -34,7 +33,9 @@ export default class TruckService implements ITruckService {
 				capacityTransportation: TruckCapacityTransportation.create(truckDTO.capacityTransportation).getValue(),
 				tare: TruckTare.create(truckDTO.tare).getValue(),
 				battery: TruckBattery.create(truckDTO.battery).getValue(),
+				status: true
 			});
+
 
 			if (truckOrError.isFailure) {
 				return Result.fail<{ truckDTO: ITruckDTO, token: string }>(truckOrError.errorValue());
@@ -125,4 +126,57 @@ export default class TruckService implements ITruckService {
 			throw e;
 		}
 	}
+
+	public async changeStatus(licensePlate: string): Promise<Result<{ truckDTO: ITruckDTO, token: string }>> {
+		try {
+
+			const truck = await this.truckRepo.findByDomainIdd(licensePlate);
+
+			if (truck === null) {
+				return Result.fail<{ truckDTO: ITruckDTO, token: string }>("Truck not found.");
+			} else {
+
+				truck.changeStatus();
+
+				const truckDTOResult = TruckMap.toDTO(truck) as ITruckDTO;
+
+
+				return Result.ok<{ truckDTO: ITruckDTO, token: string }>({
+					truckDTO: truckDTOResult,
+					token: "Truck updated successfully."
+				});
+			}
+		} catch (e) {
+			throw e;
+		}
+
+	}
+
+	public async softDelete(licensePlate: string): Promise<Result<{ truckDTO: ITruckDTO, token: string }>>{
+		try{
+
+			const truckDocument = await this.truckRepo.findByDomainId(licensePlate);
+			console.log(truckDocument);
+			if (truckDocument == null) {
+				return Result.fail<{ truckDTO: ITruckDTO, token: string }>("Truck doesn't exists with licensePlate=" + licensePlate);
+			}
+
+			//console.log(truckDocument.status);
+			truckDocument.status= !truckDocument.status;
+
+
+			await this.truckRepo.save(truckDocument);
+
+			const truckDTOResult = TruckMap.toDTO(truckDocument) as ITruckDTO;
+			return Result.ok<{ truckDTO: ITruckDTO, token: string }>({
+				truckDTO: truckDTOResult,
+				token: "Truck status updated successfully."
+			});
+		} catch (e) {
+			throw e;
+		}
+
+	}
+
+
 }
