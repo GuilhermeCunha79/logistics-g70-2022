@@ -43,4 +43,17 @@ export default (app: Router) => {
 		(req, res, next) => ctrl.updateTruck(req, res, next));
 
 	route.delete('', (req, res, next) => ctrl.deleteTruckById(req, res, next));
+
+
+	route.patch('/status',
+		celebrate({
+			params: Joi.object({
+				licensePlate: Joi.string().required()
+			})
+		}), (req, res, next) => ctrl.changeStatus(req, res, next));
+
+	route.patch('/del', (req, res, next) => ctrl.softDelete(req, res, next));
+
+
+
 }
