@@ -14,6 +14,7 @@ import { UserRole } from "../domain/User/userRole";
 import { randomBytes } from "crypto";
 import argon2 from "argon2";
 
+
 @Service()
 export default class UserService implements IUserService {
 	constructor(@Inject(config.repos.user.name) private userRepo: IUserRepo) {
@@ -78,7 +79,28 @@ export default class UserService implements IUserService {
 	}
 
 	public async updateUser(userDTO: IUserDTO): Promise<Result<{ userDTO: IUserDTO, token: string }>> {
-		return null;
+		try {
+			const user = await this.userRepo.findByDomainId(userDTO.email);
+
+			if (user === null) {
+				return Result.fail<{ userDTO: IUserDTO, token: string }>("User not found with licensePlate=" + userDTO.email);
+			} else {
+				if (userDTO.phoneNumber) user.phoneNumber = UserPhoneNumber.create("---------").getValue();
+				if (userDTO.firstName) user.firstName = UserName.create("---------").getValue();
+				if (userDTO.lastName) user.lastName = UserName.create("---------").getValue();
+				if (userDTO.password) user.password = UserPassword.create("999999999").getValue();
+
+
+				await this.userRepo.save(user);
+				const userDTOResult = UserMap.toDTO(user) as IUserDTO;
+				return Result.ok<{ userDTO: IUserDTO, token: string }>({
+					userDTO: userDTOResult,
+					token: "User updated successfully."
+				});
+			}
+		} catch (e) {
+			throw e;
+		}
 	}
 
 	public async deleteUser(query: any, password: string): Promise<Result<{ userDTO: IUserDTO, token: string }>> {
@@ -100,6 +122,21 @@ export default class UserService implements IUserService {
 				userDTO: UserMap.toDTO(userList),
 				token: "User deleted successfully."
 			});
+		} catch (e) {
+			throw e;
+		}
+	}
+
+	public async getAllUsers(): Promise<Result<IUserDTO[]>> {
+		try {
+			const userList= await this.userRepo.findAll();
+
+			if (userList == null) {
+				return Result.fail<IUserDTO[]>("There are no registered users.");
+			}
+
+			const result = userList.map((userList) => UserMap.toDTO(userList) as IUserDTO);
+			return Result.ok<IUserDTO[]>(result);
 		} catch (e) {
 			throw e;
 		}

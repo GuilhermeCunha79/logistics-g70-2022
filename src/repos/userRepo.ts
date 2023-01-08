@@ -1,9 +1,14 @@
 import { Inject, Service } from "typedi";
-import { Document, Model } from "mongoose";
+import {Document, FilterQuery, Model} from "mongoose";
 import { User } from "../domain/User/user";
 import IUserRepo from "./IRepos/IUserRepo";
 import { IUserPersistence } from "../dataschema/IUserPersistence";
 import { UserMap } from "../mappers/userMap";
+import {Truck} from "../domain/Truck/truck";
+import {TruckMap} from "../mappers/truckMap";
+import {TruckLicensePlate} from "../domain/Truck/truckLicensePlate";
+import {ITruckPersistence} from "../dataschema/ITruckPersistence";
+import {UserEmail} from "../domain/User/userEmail";
 
 @Service()
 export default class UserRepo implements IUserRepo {
@@ -40,6 +45,16 @@ export default class UserRepo implements IUserRepo {
 		}
 	}
 
+	public async findByDomainId(email: UserEmail | string): Promise<User> {
+		const query = {email: email};
+		const userRecord = await this.userSchema.findOne(query as FilterQuery<IUserPersistence& Document>);
+
+		if (userRecord != null) {
+			return UserMap.toDomain(userRecord);
+		}
+		return null;
+	}
+
 	public async find(query?: any): Promise<User[]> {
 		const userRecord = await this.userSchema.find(query);
 
@@ -55,6 +70,15 @@ export default class UserRepo implements IUserRepo {
 		if (userRecord != null) {
 			userRecord.remove();
 			return UserMap.toDomain(userRecord);
+		}
+		return null;
+	}
+
+	public async findAll(): Promise<User[]> {
+		const userRecord = await this.userSchema.find();
+
+		if (userRecord != null) {
+			return (userRecord.map((postRecord) => UserMap.toDomain(postRecord)));
 		}
 		return null;
 	}

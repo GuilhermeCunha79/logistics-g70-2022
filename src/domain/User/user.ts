@@ -16,6 +16,7 @@ interface UserProps {
 	lastName: UserName;
 	phoneNumber: UserPhoneNumber;
 	role: UserRole;
+
 }
 
 export class User extends AggregateRoot<UserProps> {
@@ -48,6 +49,22 @@ export class User extends AggregateRoot<UserProps> {
 		return this.props.role;
 	}
 
+	set firstName(value: UserName) {
+		this.props.firstName = value;
+	}
+
+	set lastName(value: UserName) {
+		this.props.lastName = value;
+	}
+
+	set password(value: UserPassword) {
+		this.props.password = value;
+	}
+
+	set phoneNumber(value: UserPhoneNumber) {
+		this.props.phoneNumber = value;
+	}
+
 	public static create(props: UserProps, id?: UniqueEntityID): Result<User> {
 		const guardedProps = [
 			{ argument: props.email, argumentName: "userEmail" },
@@ -55,7 +72,8 @@ export class User extends AggregateRoot<UserProps> {
 			{ argument: props.firstName, argumentName: "name" },
 			{ argument: props.lastName, argumentName: "name" },
 			{ argument: props.phoneNumber, argumentName: "userPhoneNumber" },
-			{ argument: props.role, argumentName: "userRole" }
+			{ argument: props.role, argumentName: "userRole" },
+
 		];
 
 		const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
